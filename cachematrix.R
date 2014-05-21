@@ -1,10 +1,12 @@
-
-### THIS IS Programming Assignment 2 which is week 3 of the course
-
-## Coursera.org May 2014 Hopkins R Programming class with Roger Peng
-## Fred Schmidt (https://github.com/rosenschmidt) begun 2014-05-17
-## Columbia, Missouri USA fred@rosenschmidt.org
-
+################################################################################
+#
+#  THIS IS Programming Assignment 2 which is week 3 of the course
+#
+#  Coursera.org May 2014 Hopkins R Programming class with Roger Peng
+#  Fred Schmidt (https://github.com/rosenschmidt) begun 2014-05-17
+#  Columbia, Missouri USA fred@rosenschmidt.org
+#
+################################################################################
 
 ## This .R file creates two functions which together,
 ## operate very much like a C++ class. 
@@ -16,7 +18,9 @@
 ## at the bottom of this file.
 
 
-### makeCacheMatrix (1 of 2 in the pair)
+################################################################################
+
+#  makeCacheMatrix (1 of 2 in the pair)
 
 makeCacheMatrix <- function(x = matrix()) {
 
@@ -75,7 +79,9 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-### cacheSolve (2 of 2 in the pair)
+################################################################################
+
+#   cacheSolve (2 of 2 in the pair)
 
 cacheSolve <- function(x, ...) {
 
@@ -98,7 +104,9 @@ cacheSolve <- function(x, ...) {
 }
 
 
-### NOTES
+################################################################################
+
+# NOTES
 
 # NOTE 1: This assigment is not difficult to execute, but is DEEP.
 # The function pair seems to create create and use a simple R object,
@@ -115,8 +123,8 @@ cacheSolve <- function(x, ...) {
 # of this function, and due to lexical scoping, are unique to the 
 # time of creation (call of makeCacheMatrix). Or so I think.
 
-# NOTE 3: For example:
-#   - execute this R script. 
+# NOTE 3: EXAMPLE USAGE
+#   - execute this R script. e.g. source("cachematrix.R")
 #   - a <- makeCacheMatrix(matrix(3,3,rnorm(9))
 #   - b <- makeCacheMatrix(matrix(4,4,rnorm(16))
 #   - cacheSolve(a)
@@ -126,3 +134,4 @@ cacheSolve <- function(x, ...) {
 #   - eye2 <- round(b$get() %*% b$getinverse(),5)
 #
  
+#####END OF FILE################################################################
