@@ -1,6 +1,7 @@
-## Coursera.org May 2014 Hopkins R Programming class with Roger Peng
-## THIS IS Programming Assignment 2 which is week 3 of the course
 
+### THIS IS Programming Assignment 2 which is week 3 of the course
+
+## Coursera.org May 2014 Hopkins R Programming class with Roger Peng
 ## Fred Schmidt (https://github.com/rosenschmidt) begun 2014-05-17
 ## Columbia, Missouri USA fred@rosenschmidt.org
 
@@ -14,6 +15,8 @@
 ## I provide an example of USING this function pair in NOTE 3, 
 ## at the bottom of this file.
 
+
+### makeCacheMatrix (1 of 2 in the pair)
 
 makeCacheMatrix <- function(x = matrix()) {
 
@@ -72,6 +75,8 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
+### cacheSolve (2 of 2 in the pair)
+
 cacheSolve <- function(x, ...) {
 
    ## Return a matrix that is the inverse of 'x'
@@ -92,6 +97,8 @@ cacheSolve <- function(x, ...) {
 
 }
 
+
+### NOTES
 
 # NOTE 1: This assigment is not difficult to execute, but is DEEP.
 # The function pair seems to create create and use a simple R object,
