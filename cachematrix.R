@@ -1,62 +1,69 @@
-## Coursera May 2014 Hopkins R Programming class with Roger Peng
+## Coursera.org May 2014 Hopkins R Programming class with Roger Peng
 ## THIS IS Programming Assignment 2 which is week 3 of the course
 
 ## Fred Schmidt (https://github.com/rosenschmidt) begun 2014-05-17
+## Columbia, Missouri USA fred@rosenschmidt.org
 
-## Fred Schmidt Columbia Missouri fred@rosenschmidt.org
 
+## This .R file creates two functions which together,
+## operate very much like a C++ class. 
 
-## This function creates a special "matrix" object that can
-## cache its inverse. It is a function that creates functions, afaik.
-## See NOTE below for some more elaborate description and observations.
+## In R-speak, this first function simply returns a list of functions.
+## See bottom of file for some more elaborate description and observations.
+
+## I provide an example of USING this function pair in NOTE 3, 
+## at the bottom of this file.
+
 
 makeCacheMatrix <- function(x = matrix()) {
 
-   ## returns some kind of object which seems to be a cache of the data,
-   ## its inverse, and the list of member-like functions.
-   ## the inverse is set to NULL; if no argument is supplied,
-   ## the matrix is set to a 1x1 NA
+   ## Returns a list of four functions, and creates two cached variables.
+   ## By default, the inverse is set to NULL; if no argument is
+   ## supplied, the matrix is set to a 1x1 NA
 
-
-   # set the internal ccached copy of the inverset to null. 
+   # 1a,b First, set the internal cached copy of the inverset to null. 
 
    xinv <- NULL
 
-   # QUESTION: Why only one <- and not <<- ?
-   # what is making x and xinv behave equivalently to a C static
-   # variable? Well no, experimentation shows x and xinv are uniques
-   # to each INSTANCE of makeCacheMatrix....
+   # Afaik, the "x =" in the function definition creates and sets
+   # the internally cached copy of the matrix, x
 
 
    # the next four actions seem to be analogous to creating 
    # member functions of a class in C++
 
-   # sets the internal cache of the matrix to y
+   # 2a - function to set the internal cache of the matrix to y
 
    set <- function(y)
      {
       # here we use the <<- operator, not the <- operator as above.
-      # Why <<- here and <- above?
       x    <<- y
       xinv <<- NULL 
      }
 
-   # returns the internal cache of the matrix
+   # 2b - function to return the internal cache of the matrix
 
    get <- function() x
 
 
 
-   # "sets" the inverse, by which we mean compute it
-   # I don't get the syntax here, i.e. exactly how the above works
+   # 2c - function to "set" the inverse. 
 
    setinverse <- function(solve) xinv <<- solve
    
+   # Here, "solve" is simply a variable name - the fact that it's called
+   # "solve" seems to have no meaning whatsoever.
+
+
+   # 2d - function to get the inverse
+
    getinverse <- function() xinv
 
 
-   # so what gets returned is the four functions, not x or xinv....
-   # where do x and xinv get stored?
+   # 3 - so what gets returned is the four functions in a list,
+   # not x or xinv....  magically, x and xinv get stored somewhere
+   # inacccessible to a user, who must use the four "member" functions
+   # to get or set the matrix and its inverse.
 
    list( set = set,
          get = get,
@@ -65,17 +72,14 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-# This function computes the inverse of the special "matrix"
-# returned by makeCacheMatrix above. If the inverse has already 
-# been calculated (and the matrix has not changed),
-# then cacheSolve should retrieve the inverse from the cache.
-# NOTE in order for the above to be true, you can only change x
-# by using the set function....
-
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
 
-   
+   ## Return a matrix that is the inverse of 'x'
+   ## Compute it if it hasn't been yet.
+
+   # note THIS xinv is local to this function, and is not [quite] 
+   # the cached one!
+
    xinv <- x$getinverse()
    if(!is.null(xinv))
      {
@@ -88,13 +92,30 @@ cacheSolve <- function(x, ...) {
 
 }
 
-# This assigment is not difficult to execute, but is DEEP.
-# The function pair seems to create a new object, which is a matrix 
-# but with functions somehow attached to it in some clever way.
 
-# Also, we are using this cached space with absolutely NO EXPLANATION
-# from the video lectures. I guess they are expecting us to do some
-# independent research at this point. That's a lot, on top of
-# the depth and complexity of lapply, tapply, apply, etc.
+# NOTE 1: This assigment is not difficult to execute, but is DEEP.
+# The function pair seems to create create and use a simple R object,
+# namely a list of functions, but these functions seem to have,
+# magically, an internal copy of the matrix and its inverse.
+# That is what I meant above when I said that, to my mind, it behaves
+# like a C++ class - each call to makeCachematrix() creates a function list
+# that has its OWN COPY OF A MATRIX and ITS INVERSE.
 
-# ##### END OF FILE ############################################################
+
+# NOTE 2: I believe this magic is accomplished due to lexical scoping.
+# Each time makeCacheMatrix() is called, x and xinv are referred to,
+# which I BELIEVE creates variables of that name within the scope
+# of this function, and due to lexical scoping, are unique to the 
+# time of creation (call of makeCacheMatrix). Or so I think.
+
+# NOTE 3: For example:
+#   - execute this R script. 
+#   - a <- makeCacheMatrix(matrix(3,3,rnorm(9))
+#   - b <- makeCacheMatrix(matrix(4,4,rnorm(16))
+#   - cacheSolve(a)
+#   - cacheSolve(b)
+# You can now manipulate a and b separately with their set(), for e.g.
+#   - eye1 <- round(a$get() %*% a$getinverse(),5)
+#   - eye2 <- round(b$get() %*% b$getinverse(),5)
+#
+ 
